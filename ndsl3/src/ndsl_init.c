@@ -15,7 +15,7 @@
  *  +-----------------------------------------------------------------+
  */
 
-#include "ndsl_common.h"
+#include "ndsl.h"
 
 /* Static Functions */
 static SCODE GetPersonByIndex(TPerson *ptPerson, int iIndex);
@@ -24,25 +24,11 @@ static SCODE GetTitleByIndex(TTitle *ptTitle, int iIndex);
 static SCODE GetAgeByIndex(unsigned int *piAge, int iIndex);
 static SCODE NDSL_Show(TNDSL *ptNDSL);
 
-TNnVPair g_atNDSLInfo[] = {
-    [CLASS_TEACHER] = {"Jimmy", "Chiu", 67},
-    [CLASS_SENIOR] = {"Jerry", "Kuo", 43},
-    [CLASS_JUNIOR] = {"Sophie", "Wang", 26},
-    [CLASS_TOTAL] = {NULL, NULL, 0},
-};
-
 char *g_pszJobName[] = {
     [CLASS_TEACHER] = "Professor",
     [CLASS_SENIOR] = "Supervisor",
     [CLASS_JUNIOR] = "Engineer",
     [CLASS_TOTAL] = NULL,
-};
-
-int g_iSeniority[] = {
-    [CLASS_TEACHER] = 30,
-    [CLASS_SENIOR] = 13,
-    [CLASS_JUNIOR] = 2,
-    [CLASS_TOTAL] = 0,
 };
 
 SCODE NDSL_Initialize(TNDSL *ptNDSL)

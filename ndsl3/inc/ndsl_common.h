@@ -15,73 +15,127 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __PERSON_COMMON_H__
-#define __PERSON_COMMON_H__
+#ifndef __NDSL_COMMON_H__
+#define __NDSL_COMMON_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-
-#include "ndsl_define.h"
+#include "ndsl.h"
 
 /* Enum and Structure */
-typedef struct _NnVPair
+typedef void *HANDLE;
+typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
+typedef struct
 {
-    const   char*   cpcFirstName;
-    const   char*   cpcLastName;
-    unsigned int    iAge;
 
-} TNnVPair;
+    /* Action name */
+    char *pcMethodName;
+    /* Fucntion to handle the action */
+    FNDSLProcess pfnProcess;
 
-typedef enum _classtype {
+} TNDSLMethod;
 
-    CLASS_TEACHER   = 0,
-    CLASS_SENIOR    = 1,
-    CLASS_JUNIOR    = 2,
-    CLASS_TOTAL     = 3,
+typedef enum _classtype
+{
 
-} EClassType;
+    CLASS_TEACHER = 0,
+    CLASS_SENIOR = 1,
+    CLASS_JUNIOR = 2,
+    CLASS_TOTAL = 3,
 
-typedef enum {
+} EJobType;
 
-    INFO_FIRSTNAME  = 0,
-    INFO_LASTNAME   = 1,
-    INFO_AGE        = 2,
+typedef enum
+{
+
+    INFO_FIRSTNAME = 0,
+    INFO_LASTNAME = 1,
+    INFO_AGE = 2,
 
 } EInfoType;
 
-typedef struct _name {
+typedef enum
+{
 
-    char    acFirstName[MAX_STRING_SIZE];
-    char    acLastName[MAX_STRING_SIZE];
+    COM_NTUST = 0,
+    COM_VIVOTEK = 1,
+    COM_DELTA = 2,
+    COM_UBNT = 3,
+
+} ECompanyPool;
+
+typedef enum
+{
+
+    STATUS_IN_SCHOOL = 1,
+    STATUS_IN_SERVICE = 2,
+    STATUS_RETIREMENT = 3,
+
+} EJobStatus;
+
+typedef struct _name
+{
+
+    char acFirstName[MAX_STRING_SIZE];
+    char acLastName[MAX_STRING_SIZE];
 
 } TName;
 
-typedef struct _title {
-    
-    char    acJobName[MAX_STRING_SIZE];
-    int     iSeniority;
+typedef struct _title
+{
+
+    char acJobName[MAX_STRING_SIZE];
+    int iSeniority;
 
 } TTitle;
 
-typedef struct _person {
+typedef struct
+{
 
-    TName           tName;
-    TTitle          tTitle;
-    unsigned int    iAge;
+    char acCompanyName[MAX_STRING_SIZE];
+    char acLocation[MAX_STRING_SIZE];
+
+} TCompanayInfo;
+
+typedef struct
+{
+
+    char acRetireFrom[MAX_STRING_SIZE];
+    char acHome[MAX_STRING_SIZE];
+
+} TRetirement;
+
+typedef struct _person
+{
+
+    TName tName;
+    unsigned int iAge;
+    TTitle tTitle;
     
+
 } TPerson;
 
-typedef struct {
+typedef struct
+{
 
-    int         iNDSLNum;
-    TPerson     atPerson[MAX_PERSON_NUM];
+    int iNDSLNum;
+    TPerson atPerson[MAX_PERSON_NUM];
 
 } TNDSL;
+
+typedef struct _personalinfo
+{
+
+    const char *cpcFirstName;
+    const char *cpcLastName;
+    unsigned int iAge;
+    EJobStatus eJobStatus;
+    EJobType eJobType;
+    int iSeniority;
+    const char *cpcJobName;
+    const char *cpcJobLocation;
+
+} TPersonalInfo;
 
 /* Functions */
 SCODE NDSL_Initialize(TNDSL *ptNDSL);
 
-#endif //__PERSON_COMMON_H__
+#endif //__NDSL_COMMON_H__
