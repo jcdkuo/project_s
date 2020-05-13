@@ -24,11 +24,18 @@ static SCODE GetTitleByIndex(TTitle *ptTitle, int iIndex);
 static SCODE GetAgeByIndex(unsigned int *piAge, int iIndex);
 static SCODE NDSL_Show(TNDSL *ptNDSL);
 
+TPersonRawData *g_pszPerson[] = {
+    {"Jimmy", "Chiu", 67, STATUS_RETIREMENT, TYPE_TEACHER, 30, "NTUST", "Xinyi"},
+    {"Jerry", "Kuo", 43, STATUS_IN_SERVICE, TYPE_SENIOR, 13, "ALPHA", "Zhonghe"},
+    {"Sophie", "Wang", 26, STATUS_IN_SERVICE, TYPE_JUNIOR, 2, "BETA", "Neihu"},
+    {"Kent", "Chen", 38, STATUS_IN_SERVICE, TYPE_SENIOR, 12, "OMEGA", "Xinyi"},
+};
+
 char *g_pszJobName[] = {
-    [CLASS_TEACHER] = "Professor",
-    [CLASS_SENIOR] = "Supervisor",
-    [CLASS_JUNIOR] = "Engineer",
-    [CLASS_TOTAL] = NULL,
+    [TYPE_TEACHER] = "Professor",
+    [TYPE_SENIOR] = "Supervisor",
+    [TYPE_JUNIOR] = "Engineer",
+    [TYPE_TOTAL] = NULL,
 };
 
 SCODE NDSL_Initialize(TNDSL *ptNDSL)
