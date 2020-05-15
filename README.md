@@ -6,4 +6,8 @@
 ## ndsl2
 - Conditional compilation
 ## ndsl3
-- 
+- Rewrite the initialization
+- Refactoring practice
+- How to use void function pointer
+- Build up debugging messages
+
