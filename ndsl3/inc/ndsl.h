@@ -15,40 +15,18 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_DEFINE_H__
-#define __NDSL_DEFINE_H__
+#ifndef __NDSL_H__
+#define __NDSL_H__
 
-typedef unsigned int SCODE;
-#define S_OK    (SCODE) (0)
-#define S_FAIL  (SCODE) (-1)
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+#include <unistd.h>
+#include <time.h>
 
-#define TRUE    1
-#define FALSE   0
+#include "ndsl_define.h"
+#include "ndsl_common.h"
+#include "ndsl_init.h"
 
-#define MAX_STRING_SIZE 32
-#define MAX_PERSON_NUM  10
-
-#define RETURN_SOK_IF(expr) if (expr) return S_OK;
-#define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
-
-#define RETURN_SFAIL_IF_NULL(expr) \
-    if (expr == NULL){ \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF(expr) \
-    if (expr){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF_NOT(expr) \
-    if (!(expr)){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define ERROR_INITIALIZATION_FAILED (-1)
-#define ERROR_SHOW_MESSAGE_FAILED   (-2)
-
-#endif //__NDSL_DEFINE_H__
+#endif // _NDSL_H

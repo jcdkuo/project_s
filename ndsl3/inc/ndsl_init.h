@@ -15,40 +15,24 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_DEFINE_H__
-#define __NDSL_DEFINE_H__
+#ifndef __NDSL_INIT_H__
+#define __NDSL_INIT_H__
 
-typedef unsigned int SCODE;
-#define S_OK    (SCODE) (0)
-#define S_FAIL  (SCODE) (-1)
+#include "ndsl.h"
 
-#define TRUE    1
-#define FALSE   0
+/* Enum and Structure */
+typedef struct _personalinfo
+{
+    const char *cpcFirstName;
+    const char *cpcLastName;
+    unsigned int iAge;
+    EJobStatus eJobStatus;
+    EJobType eJobType;
+    int iSeniority;
+    ECompanyPool eCompany;
+} TPersonRawData;
 
-#define MAX_STRING_SIZE 32
-#define MAX_PERSON_NUM  10
+/* Functions */
+SCODE NDSL_Initialize(TNDSL *ptNDSL);
 
-#define RETURN_SOK_IF(expr) if (expr) return S_OK;
-#define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
-
-#define RETURN_SFAIL_IF_NULL(expr) \
-    if (expr == NULL){ \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF(expr) \
-    if (expr){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF_NOT(expr) \
-    if (!(expr)){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define ERROR_INITIALIZATION_FAILED (-1)
-#define ERROR_SHOW_MESSAGE_FAILED   (-2)
-
-#endif //__NDSL_DEFINE_H__
+#endif //__NDSL_INIT_H__

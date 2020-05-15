@@ -15,40 +15,29 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_DEFINE_H__
-#define __NDSL_DEFINE_H__
+#include "ndsl.h"
 
-typedef unsigned int SCODE;
-#define S_OK    (SCODE) (0)
-#define S_FAIL  (SCODE) (-1)
-
-#define TRUE    1
-#define FALSE   0
-
-#define MAX_STRING_SIZE 32
-#define MAX_PERSON_NUM  10
-
-#define RETURN_SOK_IF(expr) if (expr) return S_OK;
-#define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
-
-#define RETURN_SFAIL_IF_NULL(expr) \
-    if (expr == NULL){ \
-    return S_FAIL;  \
+SCODE checkNull(const char *pCaller, const void *pCheckTarget, const char *pCheckName)
+{
+    if (pCheckTarget == NULL)
+    {
+        printf("[%s] Bad arguments. %s is NULL\n", pCaller, pCheckName);
+        return S_FAIL;
+    }
+    return S_OK;
 }
 
-#define RETURN_SFAIL_IF(expr) \
-    if (expr){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
+SCODE stringCompare(char *pcString1, char *pcString2)
+{
+    RETURN_SFAIL_IF_NULL(pcString1);
+    RETURN_SFAIL_IF_NULL(pcString2);
+
+    if (strlen(pcString1) == strlen(pcString2))
+    {
+        if (strncmp(pcString1, pcString2, strlen(pcString1)) == 0)
+        {
+            return S_OK;
+        }
+    }
+    return S_FAIL;
 }
-
-#define RETURN_SFAIL_IF_NOT(expr) \
-    if (!(expr)){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define ERROR_INITIALIZATION_FAILED (-1)
-#define ERROR_SHOW_MESSAGE_FAILED   (-2)
-
-#endif //__NDSL_DEFINE_H__

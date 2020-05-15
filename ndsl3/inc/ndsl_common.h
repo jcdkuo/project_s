@@ -15,73 +15,95 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __PERSON_COMMON_H__
-#define __PERSON_COMMON_H__
+#ifndef __NDSL_COMMON_H__
+#define __NDSL_COMMON_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-
-#include "ndsl_define.h"
+#include "ndsl.h"
 
 /* Enum and Structure */
-typedef struct _NnVPair
+typedef struct
 {
-    const   char*   cpcFirstName;
-    const   char*   cpcLastName;
-    unsigned int    iAge;
-
+    const char *cpcName;
+    int iValue;
 } TNnVPair;
 
-typedef enum _classtype {
+typedef void *HANDLE;
+typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
+typedef struct
+{
+    /* Action name */
+    char *pcMethodName;
+    /* Fucntion to handle the action */
+    FNDSLProcess pfnProcess;
 
-    CLASS_TEACHER   = 0,
-    CLASS_SENIOR    = 1,
-    CLASS_JUNIOR    = 2,
-    CLASS_TOTAL     = 3,
+} TNDSLMethod;
 
-} EClassType;
+typedef enum _classtype
+{
+    TYPE_TEACHER = 0,
+    TYPE_SENIOR = 1,
+    TYPE_JUNIOR = 2,
+    TYPE_UNKNOWN = 3,
+} EJobType;
 
-typedef enum {
-
-    INFO_FIRSTNAME  = 0,
-    INFO_LASTNAME   = 1,
-    INFO_AGE        = 2,
-
+typedef enum
+{
+    INFO_FIRSTNAME = 0,
+    INFO_LASTNAME = 1,
+    INFO_AGE = 2,
 } EInfoType;
 
-typedef struct _name {
+typedef enum
+{
+    COM_NTUST = 0,
+    COM_ALPHA = 1,
+    COM_BETA = 2,
+    COM_OMEGA = 3,
+    COM_UNKNOWN = 4,
+} ECompanyPool;
 
-    char    acFirstName[MAX_STRING_SIZE];
-    char    acLastName[MAX_STRING_SIZE];
+typedef enum
+{
+    STATUS_IN_SCHOOL = 1,
+    STATUS_IN_SERVICE = 2,
+    STATUS_RETIREMENT = 3,
+    STATUS_UNKNOWN = 4,
+} EJobStatus;
 
+typedef struct _name
+{
+    char acFirstName[MAX_STRING_SIZE];
+    char acLastName[MAX_STRING_SIZE];
 } TName;
 
-typedef struct _title {
-    
-    char    acJobName[MAX_STRING_SIZE];
-    int     iSeniority;
-
+typedef struct _title
+{
+    char acName[MAX_STRING_SIZE];
+    int iSeniority;
 } TTitle;
 
-typedef struct _person {
+typedef struct
+{
+    char acName[MAX_STRING_SIZE];
+} TCompany, TRetiredFrom;
 
-    TName           tName;
-    TTitle          tTitle;
-    unsigned int    iAge;
-    
+typedef struct _person
+{
+    TName tName;
+    unsigned int iAge;
+    bool bRetired;
+    TTitle tTitle;
+    TCompany tCompany;
 } TPerson;
 
-typedef struct {
-
-    int         iNDSLNum;
-    TPerson     atPerson[MAX_PERSON_NUM];
-
+typedef struct
+{
+    int iNDSLNum;
+    TPerson atPerson[MAX_PERSON_NUM];
 } TNDSL;
 
 /* Functions */
-SCODE NDSL_Initialize(TNDSL *ptNDSL);
+SCODE checkNull(const char *pCaller, const void *pCheckTarget, const char *pCheckName);
+SCODE stringCompare(char *pcString1, char *pcString2);
 
-#endif //__PERSON_COMMON_H__
+#endif //__NDSL_COMMON_H__
