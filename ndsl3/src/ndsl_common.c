@@ -15,18 +15,29 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_H__
-#define __NDSL_H__
+#include "ndsl.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+SCODE checkNull(const char *pCaller, const void *pCheckTarget, const char *pCheckName)
+{
+    if (pCheckTarget == NULL)
+    {
+        printf("[%s] Bad arguments. %s is NULL\n", pCaller, pCheckName);
+        return S_FAIL;
+    }
+    return S_OK;
+}
 
-#include "ndsl_define.h"
-#include "ndsl_common.h"
-#include "ndsl_init.h"
+SCODE stringCompare(char *pcString1, char *pcString2)
+{
+    RETURN_SFAIL_IF_NULL(pcString1);
+    RETURN_SFAIL_IF_NULL(pcString2);
 
-#endif // _NDSL_H
+    if (strlen(pcString1) == strlen(pcString2))
+    {
+        if (strncmp(pcString1, pcString2, strlen(pcString1)) == 0)
+        {
+            return S_OK;
+        }
+    }
+    return S_FAIL;
+}

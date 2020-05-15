@@ -43,7 +43,7 @@ typedef enum _classtype
     TYPE_TEACHER = 0,
     TYPE_SENIOR = 1,
     TYPE_JUNIOR = 2,
-    TYPE_TOTAL = 3,
+    TYPE_UNKNOWN = 3,
 } EJobType;
 
 typedef enum
@@ -56,9 +56,10 @@ typedef enum
 typedef enum
 {
     COM_NTUST = 0,
-    COM_VIVOTEK = 1,
-    COM_DELTA = 2,
-    COM_UBNT = 3,
+    COM_ALPHA = 1,
+    COM_BETA = 2,
+    COM_OMEGA = 3,
+    COM_UNKNOWN = 4,
 } ECompanyPool;
 
 typedef enum
@@ -66,6 +67,7 @@ typedef enum
     STATUS_IN_SCHOOL = 1,
     STATUS_IN_SERVICE = 2,
     STATUS_RETIREMENT = 3,
+    STATUS_UNKNOWN = 4,
 } EJobStatus;
 
 typedef struct _name
@@ -76,21 +78,14 @@ typedef struct _name
 
 typedef struct _title
 {
-    char acJobName[MAX_STRING_SIZE];
+    char acName[MAX_STRING_SIZE];
     int iSeniority;
 } TTitle;
 
 typedef struct
 {
     char acName[MAX_STRING_SIZE];
-    char acLocation[MAX_STRING_SIZE];
-} TCompanyInfo;
-
-typedef struct
-{
-    char acRetireFrom[MAX_STRING_SIZE];
-    char acHome[MAX_STRING_SIZE];
-} TRetirement;
+} TCompany, TRetiredFrom;
 
 typedef struct _person
 {
@@ -98,7 +93,7 @@ typedef struct _person
     unsigned int iAge;
     bool bRetired;
     TTitle tTitle;
-    TCompanyInfo tCompanyInfo;
+    TCompany tCompany;
 } TPerson;
 
 typedef struct
@@ -107,19 +102,8 @@ typedef struct
     TPerson atPerson[MAX_PERSON_NUM];
 } TNDSL;
 
-typedef struct _personalinfo
-{
-    const char *cpcFirstName;
-    const char *cpcLastName;
-    unsigned int iAge;
-    EJobStatus eJobStatus;
-    EJobType eJobType;
-    int iSeniority;
-    const char *cpcCompanyName;
-    const char *cpcCompanyLocation;
-} TPersonRawData;
-
 /* Functions */
-SCODE NDSL_Initialize(TNDSL *ptNDSL);
+SCODE checkNull(const char *pCaller, const void *pCheckTarget, const char *pCheckName);
+SCODE stringCompare(char *pcString1, char *pcString2);
 
 #endif //__NDSL_COMMON_H__

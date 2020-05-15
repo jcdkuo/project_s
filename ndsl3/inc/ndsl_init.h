@@ -15,18 +15,24 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_H__
-#define __NDSL_H__
+#ifndef __NDSL_INIT_H__
+#define __NDSL_INIT_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+#include "ndsl.h"
 
-#include "ndsl_define.h"
-#include "ndsl_common.h"
-#include "ndsl_init.h"
+/* Enum and Structure */
+typedef struct _personalinfo
+{
+    const char *cpcFirstName;
+    const char *cpcLastName;
+    unsigned int iAge;
+    EJobStatus eJobStatus;
+    EJobType eJobType;
+    int iSeniority;
+    ECompanyPool eCompany;
+} TPersonRawData;
 
-#endif // _NDSL_H
+/* Functions */
+SCODE NDSL_Initialize(TNDSL *ptNDSL);
+
+#endif //__NDSL_INIT_H__
