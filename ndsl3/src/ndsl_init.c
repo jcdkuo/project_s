@@ -11,7 +11,7 @@
  *  |                                                                 |
  *  | THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT   |
  *  | ANY PRIOR NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY |
- *  | SOPHIE INC.                                                    |
+ *  | SOPHIE INC.                                                     |
  *  +-----------------------------------------------------------------+
  */
 
@@ -25,25 +25,25 @@ static SCODE GetAgeByIndex(unsigned int *piAge, int iIndex);
 static SCODE NDSL_Show(TNDSL *ptNDSL);
 
 TPersonRawData g_szPerson[] = {
-    {"Jimmy", "Chiu", 67, STATUS_RETIREMENT, TYPE_TEACHER, 30, COM_NTUST},
-    {"Jerry", "Kuo", 43, STATUS_IN_SERVICE, TYPE_SENIOR, 13, COM_ALPHA},
-    {"Sophie", "Wang", 26, STATUS_IN_SERVICE, TYPE_JUNIOR, 2, COM_BETA},
-    {"Kent", "Chen", 38, STATUS_IN_SERVICE, TYPE_SENIOR, 12, COM_OMEGA},
-    {NULL, NULL, 0, 0, 0, 0, 0},
+    { "Jimmy",  "Chiu", 67, STATUS_RETIREMENT,  TYPE_TEACHER,   30, COM_NTUST},
+    { "Jerry",  "Kuo",  43, STATUS_IN_SERVICE,  TYPE_SENIOR,    13, COM_ALPHA},
+    { "Sophie", "Wang", 26, STATUS_IN_SERVICE,  TYPE_JUNIOR,    2,  COM_BETA},
+    { "Kent",   "Chen", 38, STATUS_IN_SERVICE,  TYPE_SENIOR,    12, COM_OMEGA},
+    { NULL,     NULL,   0,  0,                  0,              0,  0},
 };
 
 TNnVPair g_atJobType[] = {
-    {"Professor", TYPE_TEACHER},
+    {"Professor",       TYPE_TEACHER},
     {"Senior Engineer", TYPE_SENIOR},
     {"Junior Engineer", TYPE_JUNIOR},
-    {"Unknown", TYPE_UNKNOWN},
+    {"Unknown",         TYPE_UNKNOWN},
 };
 
 TNnVPair g_atCompany[] = {
-    {"NTUST", COM_NTUST},
-    {"ALPHA", COM_ALPHA},
-    {"BETA", COM_BETA},
-    {"OMEGA", COM_OMEGA},
+    {"NTUST",   COM_NTUST},
+    {"ALPHA",   COM_ALPHA},
+    {"BETA",    COM_BETA},
+    {"OMEGA",   COM_OMEGA},
     {"Unknown", COM_UNKNOWN},
 };
 
@@ -71,17 +71,17 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
         // Get Job Status
         switch (g_szPerson[ptInitNDSL->iNDSLNum].eJobStatus)
         {
-        case STATUS_IN_SERVICE:
-            ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = FALSE;
-            break;
-        case STATUS_RETIREMENT:
-            ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = TRUE;
-            break;
-        case STATUS_IN_SCHOOL:
-        case STATUS_UNKNOWN:
-            // No related information
-        default:
-            printf("\n%s:%d Wrong Job Status!\n\n", __func__, __LINE__);
+            case STATUS_IN_SERVICE:
+                ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = FALSE;
+                break;
+            case STATUS_RETIREMENT:
+                ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = TRUE;
+                break;
+            case STATUS_IN_SCHOOL:
+            case STATUS_UNKNOWN:
+                // No related information
+            default:
+                printf("\n%s:%d Wrong Job Status!\n\n", __func__, __LINE__);
         }
 
         // Get Job Type
