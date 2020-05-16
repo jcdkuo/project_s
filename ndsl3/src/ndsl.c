@@ -23,7 +23,7 @@ int main()
     SCODE sReturn = S_OK;
 
     // Initialization
-    NDSL_Initialize(&tNDSL);
+    sReturn = NDSL_Initialize(&tNDSL);
 
     if (sReturn != S_OK)
         return ERROR_INITIALIZATION_FAILED;
