@@ -18,6 +18,10 @@
 #include "ndsl.h"
 
 /* Static Functions */
+static SCODE GetPersonByIndex(TPerson *ptPerson, int iIndex);
+static SCODE GetNameByIndex(TName *ptName, int iIndex);
+static SCODE GetTitleByIndex(TTitle *ptTitle, int iIndex);
+static SCODE GetAgeByIndex(unsigned int *piAge, int iIndex);
 static SCODE NDSL_Show(TNDSL *ptNDSL);
 
 TPersonRawData g_szPerson[] = {
