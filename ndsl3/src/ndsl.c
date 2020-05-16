@@ -17,16 +17,46 @@
 
 #include "ndsl.h"
 
-int main()
+void usage(void)
 {
-    TNDSL tNDSL;
-    SCODE sReturn = S_OK;
+	printf("\nUsage:\n"
+		   "        ndsl3 -c conig_file [-d] [-h]\n"
+		   "Options:\n"
+		   "	-c [config_file] The configuration file, default is /etc/conf.d/config_onvif/config_onvifstoraged.xml\n"
+		   "	-d Daemonize\n"
+		   "	-h Show this help\n\n"
+		   );
+	exit(1);
+}
+
+int main(int argc, char *argv[])
+{
+    int     iCh = 0;
+    TNDSL   tNDSL;
+    SCODE   sReturn = S_OK;
+
+	while ((iCh = getopt(argc, argv, "c:dh")) != -1) 
+	{
+		switch (iCh) {
+		case 'c':
+			//pcConfFile = optarg;
+			break;
+		case 'd':
+			//daemon(0,0);
+			break;
+		case 'h':
+			usage();
+			break;
+		default:
+			usage();
+		}
+	}
 
     // Initialization
-    NDSL_Initialize(&tNDSL);
-
-    if (sReturn != S_OK)
+    if ((sReturn = NDSL_Initialize(&tNDSL)) != S_OK)
         return ERROR_INITIALIZATION_FAILED;
 
     return 0;
 }
+
+

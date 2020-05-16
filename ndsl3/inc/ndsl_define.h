@@ -18,6 +18,8 @@
 #ifndef __NDSL_DEFINE_H__
 #define __NDSL_DEFINE_H__
 
+#define NDSL3_VERSION MAKEFOURCC( 1, 0, 0, 0)
+
 typedef unsigned int SCODE;
 #define S_OK    (SCODE) (0)
 #define S_FAIL  (SCODE) (-1)
