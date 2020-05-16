@@ -11,7 +11,7 @@
  *  |                                                                 |
  *  | THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT   |
  *  | ANY PRIOR NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY |
- *  | SOPHIE INC.                                                    |
+ *  | SOPHIE INC.                                                     |
  *  +-----------------------------------------------------------------+
  */
 

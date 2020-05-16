@@ -11,7 +11,7 @@
  *  |                                                                 |
  *  | THE INFORMATION IN THIS SOFTWARE IS SUBJECT TO CHANGE WITHOUT   |
  *  | ANY PRIOR NOTICE AND SHOULD NOT BE CONSTRUED AS A COMMITMENT BY |
- *  | SOPHIE INC.                                                    |
+ *  | SOPHIE INC.                                                     |
  *  +-----------------------------------------------------------------+
  */
 
@@ -21,15 +21,16 @@
 #include "ndsl.h"
 
 /* Enum and Structure */
-typedef struct _personalinfo
-{
-    const char *cpcFirstName;
-    const char *cpcLastName;
-    unsigned int iAge;
-    EJobStatus eJobStatus;
-    EJobType eJobType;
-    int iSeniority;
-    ECompanyPool eCompany;
+typedef struct _personalinfo {
+
+    const char      *cpcFirstName;
+    const char      *cpcLastName;
+    unsigned int    iAge;
+    EJobStatus      eJobStatus;
+    EJobType        eJobType;
+    int             iSeniority;
+    ECompanyPool    eCompany;
+
 } TPersonRawData;
 
 /* Functions */
