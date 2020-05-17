@@ -15,22 +15,20 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_H__
-#define __NDSL_H__
+#ifndef __NDSL_MESSAGE_H__
+#define __NDSL_MESSAGE_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
+typedef struct {
 
-#include "ndsl_define.h"
-#include "ndsl_common.h"
-#include "ndsl_init.h"
-#include "ndsl_search.h"
-#include "ndsl_request.h"
-#include "ndsl_message.h"
+    /* Config file path */
+    char        *pcConfFile;
+    /* Request info handle */
+    HANDLE      hSearchInfo;
+    /* Initilizer handle */
+    HANDLE      hInitilization;
+    /* Output */
+    char        acSendBuffer[MAX_SENDBUFFER_SIZE];
+} TMessageHandler;
 
 
-#endif // _NDSL_H
+#endif // __NDSL_MESSAGE_H__

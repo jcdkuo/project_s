@@ -86,7 +86,9 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
 #endif
 
     // Show Info
+#ifdef DEBUG
     RETURN_SFAIL_IF_NOT(NDSL_Show(ptInitNDSL) == S_OK);
+#endif
 
     return S_OK;
 }

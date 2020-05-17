@@ -20,7 +20,7 @@
 void usage(void)
 {
 	printf("\nUsage:\n"
-		   "        ndsl3 -c conig_file [-d] [-h]\n"
+		   "        ndsl3 -[n|a|t] arg [-r] [-h]\n"
 		   "Options:\n"
 		   "	-n Search by Name\n"
            "	-a Search by Age (older than)\n"
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
     memset(&tSearchInfo, 0, sizeof(TSearchInfo));
 
-	while ((iCh = getopt(argc, argv, "c:dh")) != -1) 
+	while ((iCh = getopt(argc, argv, "n:a:t:rdh")) != -1) 
 	{
 		switch (iCh) {
 		case 'n':
