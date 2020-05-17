@@ -28,5 +28,19 @@
 #include "ndsl_define.h"
 #include "ndsl_common.h"
 #include "ndsl_init.h"
+#include "ndsl_search.h"
+#include "ndsl_request.h"
+
+typedef struct {
+
+    /* Config file path */
+    char        *pcConfFile;
+    /* Request info handle */
+    HANDLE      hSearchInfo;
+    /* Initilizer handle */
+    HANDLE      hInitilization;
+    /* Output */
+    char        acSendBuffer[MAX_SENDBUFFER_SIZE];
+} TMessageHandler;
 
 #endif // _NDSL_H

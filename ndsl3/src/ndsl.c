@@ -22,8 +22,10 @@ void usage(void)
 	printf("\nUsage:\n"
 		   "        ndsl3 -c conig_file [-d] [-h]\n"
 		   "Options:\n"
-		   "	-c [config_file] The configuration file, default is /etc/conf.d/config_onvif/config_onvifstoraged.xml\n"
-		   "	-d Daemonize\n"
+		   "	-n Search by Name\n"
+           "	-a Search by Age (older than)\n"
+		   "	-r Search by Retirement\n"
+		   "	-t Search by Job Title\n"
 		   "	-h Show this help\n\n"
 		   );
 	exit(1);
@@ -31,18 +33,29 @@ void usage(void)
 
 int main(int argc, char *argv[])
 {
-    int     iCh = 0;
-    TNDSL   tNDSL;
-    SCODE   sReturn = S_OK;
+    int             iCh = 0;
+    char	        *pcConfFile = NULL;
+    TSearchInfo     tSearchInfo;
+    TNDSL           tNDSL;
+    TMessageHandler tMsgHandler;
+    SCODE           sReturn = S_OK;
+
+    memset(&tSearchInfo, 0, sizeof(TSearchInfo));
 
 	while ((iCh = getopt(argc, argv, "c:dh")) != -1) 
 	{
 		switch (iCh) {
-		case 'c':
-			//pcConfFile = optarg;
+		case 'n':
+            GetRequest(&tSearchInfo, SEARCH_NAME, optarg);
 			break;
-		case 'd':
-			//daemon(0,0);
+		case 'a':
+            GetRequest(&tSearchInfo, SEARCH_AGE, optarg);
+			break;
+		case 'r':
+            GetRequest(&tSearchInfo, SEARCH_RETIRED, NULL);
+			break;
+		case 't':
+            GetRequest(&tSearchInfo, SEARCH_TITLE, optarg);
 			break;
 		case 'h':
 			usage();

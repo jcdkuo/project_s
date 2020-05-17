@@ -34,11 +34,11 @@ typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
 typedef struct {
 
     /* Action name */
-    char            *pcMethodName;
+    int             iCommandType;
     /* Fucntion to handle the action */
     FNDSLProcess    pfnProcess;
 
-} TNDSLMethod;
+} TNDSLCommand;
 
 typedef enum _classtype {
 

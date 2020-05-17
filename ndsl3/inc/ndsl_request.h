@@ -15,43 +15,15 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_DEFINE_H__
-#define __NDSL_DEFINE_H__
+#ifndef __NDSL_REQUEST_H__
+#define __NDSL_REQUEST_H__
 
-typedef unsigned int SCODE;
-#define S_OK    (SCODE) (0)
-#define S_FAIL  (SCODE) (-1)
+#include "ndsl.h"
 
-#define TRUE    1
-#define FALSE   0
+SCODE GetRequest(TSearchInfo *ptSearch, int iSearchType, char *optarg);
+SCODE ComposeSearchByName(TSearchInfo *ptSearch, char *pszName);
+SCODE ComposeSearchByAge(TSearchInfo *ptSearch, char *pszAge);
+SCODE ComposeSearchByRetired(TSearchInfo *ptSearch);
+SCODE ComposeSearchByTitle(TSearchInfo *ptSearch, char *pszJobName);
 
-#define MAX_STRING_SIZE     32
-#define MAX_COMMAND_SIZE    32
-#define MAX_RECVBUFFER_SIZE 64
-#define MAX_SENDBUFFER_SIZE 128
-#define MAX_PERSON_NUM      10
-
-#define RETURN_SOK_IF(expr) if (expr) return S_OK;
-#define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
-
-#define RETURN_SFAIL_IF_NULL(expr) \
-    if (expr == NULL){ \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF(expr) \
-    if (expr){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define RETURN_SFAIL_IF_NOT(expr) \
-    if (!(expr)){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
-
-#define ERROR_INITIALIZATION_FAILED (-1)
-#define ERROR_SHOW_MESSAGE_FAILED   (-2)
-
-#endif //__NDSL_DEFINE_H__
+#endif // __NDSL_REQUEST_H__

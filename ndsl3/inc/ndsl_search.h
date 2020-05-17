@@ -15,43 +15,27 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_DEFINE_H__
-#define __NDSL_DEFINE_H__
+#ifndef __NDSL_SEARCH_H__
+#define __NDSL_SEARCH_H__
 
-typedef unsigned int SCODE;
-#define S_OK    (SCODE) (0)
-#define S_FAIL  (SCODE) (-1)
+#include "ndsl.h"
 
-#define TRUE    1
-#define FALSE   0
+typedef enum {
 
-#define MAX_STRING_SIZE     32
-#define MAX_COMMAND_SIZE    32
-#define MAX_RECVBUFFER_SIZE 64
-#define MAX_SENDBUFFER_SIZE 128
-#define MAX_PERSON_NUM      10
+    SEARCH_NAME     = 0,
+    SEARCH_AGE      = 1,
+    SEARCH_RETIRED  = 2,
+    SEARCH_TITLE    = 3,
+    SEARCH_UNKNOWN  = 4,
 
-#define RETURN_SOK_IF(expr) if (expr) return S_OK;
-#define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
+} ESearchType;
 
-#define RETURN_SFAIL_IF_NULL(expr) \
-    if (expr == NULL){ \
-    return S_FAIL;  \
-}
+/* Enum and Structure */
+typedef struct {
 
-#define RETURN_SFAIL_IF(expr) \
-    if (expr){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
+    int     iCommand;
+    char    acRecvBuffer[MAX_RECVBUFFER_SIZE];
 
-#define RETURN_SFAIL_IF_NOT(expr) \
-    if (!(expr)){ \
-    printf("[%s] failed %s:%d\n", __func__, __FILE__, __LINE__); \
-    return S_FAIL;  \
-}
+} TSearchInfo;
 
-#define ERROR_INITIALIZATION_FAILED (-1)
-#define ERROR_SHOW_MESSAGE_FAILED   (-2)
-
-#endif //__NDSL_DEFINE_H__
+#endif //__NDSL_SEARCH_H__
