@@ -34,7 +34,6 @@ void usage(void)
 int main(int argc, char *argv[])
 {
     int             iCh = 0;
-    char	        *pcConfFile = NULL;
     TSearchInfo     tSearchInfo;
     TNDSL           tNDSL;
     TMessageHandler tMsgHandler;
@@ -61,14 +60,29 @@ int main(int argc, char *argv[])
 			usage();
 			break;
 		default:
-			usage();
+            usage();
 		}
 	}
 
     // Initialization
     if ((sReturn = NDSL_Initialize(&tNDSL)) != S_OK)
+    {
+        printf("%s:%d %s\n", __func__, __LINE__, INITIALIZATION_FAILED);
         return ERROR_INITIALIZATION_FAILED;
+    }
 
+    // Prepare Handler
+    tMsgHandler.hSearchInfo = (HANDLE)(&tSearchInfo);
+    tMsgHandler.hInitilizer = (HANDLE)(&tNDSL);
+
+    // Handle message
+    if ((sReturn = HandleMessage(&tMsgHandler)) != S_OK)
+    {
+        printf("%s:%d %s\n", __func__, __LINE__, HANDLE_MESSAGE_FAILED);
+        return ERROR_HANDLE_MESSAGE_FAILED;
+    }
+
+    printf("%s:%d %s\n", __func__, __LINE__, tMsgHandler.acSendBuffer);
     return 0;
 }
 

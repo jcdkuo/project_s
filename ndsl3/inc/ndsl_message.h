@@ -18,17 +18,29 @@
 #ifndef __NDSL_MESSAGE_H__
 #define __NDSL_MESSAGE_H__
 
+typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
+
 typedef struct {
 
-    /* Config file path */
-    char        *pcConfFile;
+    /* Action name */
+    int             iCommandType;
+    /* Fucntion to handle the action */
+    FNDSLProcess    pfnProcess;
+
+} TNDSLMethod;
+
+typedef struct {
+
     /* Request info handle */
     HANDLE      hSearchInfo;
     /* Initilizer handle */
-    HANDLE      hInitilization;
+    HANDLE      hInitilizer;
     /* Output */
     char        acSendBuffer[MAX_SENDBUFFER_SIZE];
+
 } TMessageHandler;
 
+/* Functions */
+SCODE HandleMessage(TMessageHandler *ptMsg);
 
 #endif // __NDSL_MESSAGE_H__

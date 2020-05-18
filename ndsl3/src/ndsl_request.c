@@ -15,7 +15,7 @@
  *  +-----------------------------------------------------------------+
  */
 
-#include "ndsl.h"
+#include "ndsl.h" 
 
 SCODE GetRequest(TSearchInfo *ptSearch, int iSearchType, char *optarg)
 {

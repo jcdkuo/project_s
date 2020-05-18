@@ -38,4 +38,56 @@ typedef struct {
 
 } TSearchInfo;
 
+typedef struct {
+
+    char    acName[MAX_RECVBUFFER_SIZE];
+
+} TSearchName;
+
+typedef struct {
+
+    unsigned iAge;
+
+} TSearchAge;
+
+typedef struct {
+
+    bool    bRetired;
+
+} TSearchRetired;
+
+typedef struct {
+
+    TTitle  tTitle;
+
+} TSearchTitle;
+
+typedef struct {
+
+    /* Request info handle */
+    HANDLE      hSearchInfo;
+    /* Initilizer handle */
+    HANDLE      hInitilizer;
+
+} TSearchHandler;
+
+/* Functions */
+SCODE SearchByName(HANDLE hObject, char *pcOutput, int iBufferSize);
+SCODE SearchByAge(HANDLE hObject, char *pcOutput, int iBufferSize);
+SCODE SearchByRetired(HANDLE hObject, char *pcOutput, int iBufferSize);
+SCODE SearchByTitle(HANDLE hObject, char *pcOutput, int iBufferSize);
+
+SCODE Parse_SearchName(HANDLE hObject, TSearchName *ptSN);
+SCODE Parse_SearchAge(HANDLE hObject, TSearchAge *ptSA);
+SCODE Parse_SearachRetired(HANDLE hObject, TSearchRetired *ptSR);
+SCODE Parse_SearchTitle(HANDLE hObject, TSearchTitle *ptST);
+
+SCODE Process_SearchName(HANDLE hObject, TSearchName *ptSN, TSearchResponse *ptSNRes);
+SCODE Process_SearchAge(HANDLE hObject, TSearchAge *ptSA, TSearchResponse *ptSAResp);
+SCODE Process_SearchRetired(HANDLE hObject, TSearchRetired *ptSR, TSearchResponse *ptSRRes);
+SCODE Process_SearchTitle(HANDLE hObject, TSearchTitle *ptST, TSearchResponse *ptSTRes);
+
+SCODE Compose_SearchResponse(TSearchResponse *ptRes, char *pcOutput, int iBufferSize);
+SCODE Compose_SearchFault(char *pcOutput, int iBufferSize);
+
 #endif //__NDSL_SEARCH_H__

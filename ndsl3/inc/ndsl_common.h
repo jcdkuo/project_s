@@ -29,16 +29,6 @@ typedef struct {
 } TNnVPair;
 
 typedef void *HANDLE;
-typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
-
-typedef struct {
-
-    /* Action name */
-    int             iCommandType;
-    /* Fucntion to handle the action */
-    FNDSLProcess    pfnProcess;
-
-} TNDSLCommand;
 
 typedef enum _classtype {
 
@@ -111,10 +101,11 @@ typedef struct {
     int         iNDSLNum;
     TPerson     atPerson[MAX_PERSON_NUM];
 
-} TNDSL;
+} TNDSL, TSearchResponse;
 
 /* Functions */
 SCODE checkNull(const char *pCaller, const void *pCheckTarget, const char *pCheckName);
 SCODE stringCompare(char *pcString1, char *pcString2);
+SCODE NDSL_Show(TNDSL *ptNDSL);
 
 #endif //__NDSL_COMMON_H__
