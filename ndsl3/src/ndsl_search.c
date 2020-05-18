@@ -34,7 +34,8 @@ SCODE SearchByName(HANDLE hObject, char *pcOutput, int iBufferSize)
 
     // Compose
     if (sRet == S_OK)
-        Compose_SearchResponse(&tSNRes, pcOutput, iBufferSize);
+        //Compose_SearchResponse(&tSNRes, pcOutput, iBufferSize);
+        NDSL_Show(&tSNRes);
     else
         Compose_SearchFault(pcOutput, iBufferSize);
 
@@ -186,9 +187,15 @@ SCODE Process_SearchName(HANDLE hObject, TSearchName *ptSN, TSearchResponse *ptS
         snprintf(acFullName, MAX_RECVBUFFER_SIZE, "%s %s",
             ptInit->atPerson[iIndex].tName.acFirstName, ptInit->atPerson[iIndex].tName.acLastName);
 
-        if (stringCompare(ptSN->acName, acFullName) == S_OK)
+        printf("%s:%d acFullName = %s\n", __func__, __LINE__, acFullName);
+        printf("%s:%d acFirstName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acFirstName);
+        printf("%s:%d acLastName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acLastName);
+
+        if ((stringCompare(ptSN->acName, acFullName) == S_OK) ||
+            (stringCompare(ptSN->acName, ptInit->atPerson[iIndex].tName.acFirstName) == S_OK) ||
+            (stringCompare(ptSN->acName, ptInit->atPerson[iIndex].tName.acLastName) == S_OK))
         {
-            memcpy(&ptSNRes->atPerson[iIndex], &ptInit->atPerson[iIndex], sizeof(TPerson));
+            memcpy(&ptSNRes->atPerson[ptSNRes->iNDSLNum], &ptInit->atPerson[iIndex], sizeof(TPerson));
             ptSNRes->iNDSLNum++;
         }
     }
@@ -211,7 +218,7 @@ SCODE Process_SearchAge(HANDLE hObject, TSearchAge *ptSA, TSearchResponse *ptSAR
     {
         if (ptInit->atPerson[iIndex].iAge > ptSA->iAge)
         {
-            memcpy(&ptSARes->atPerson[iIndex], &ptInit->atPerson[iIndex], sizeof(TPerson));
+            memcpy(&ptSARes->atPerson[ptSARes->iNDSLNum], &ptInit->atPerson[iIndex], sizeof(TPerson));
             ptSARes->iNDSLNum++;
         }
     }
@@ -234,7 +241,7 @@ SCODE Process_SearchRetired(HANDLE hObject, TSearchRetired *ptSR, TSearchRespons
     {
         if (ptSR->bRetired == ptInit->atPerson[iIndex].bRetired)
         {
-            memcpy(&ptSRRes->atPerson[iIndex], &ptInit->atPerson[iIndex], sizeof(TPerson));
+            memcpy(&ptSRRes->atPerson[ptSRRes->iNDSLNum], &ptInit->atPerson[iIndex], sizeof(TPerson));
             ptSRRes->iNDSLNum++;
         }
     }
@@ -257,7 +264,7 @@ SCODE Process_SearchTitle(HANDLE hObject, TSearchTitle *ptST, TSearchResponse *p
     {
         if (stringCompare(ptST->tTitle.acName, ptInit->atPerson[iIndex].tTitle.acName) == S_OK)
         {
-            memcpy(&ptSTRes->atPerson[iIndex], &ptInit->atPerson[iIndex], sizeof(TPerson));
+            memcpy(&ptSTRes->atPerson[ptSTRes->iNDSLNum], &ptInit->atPerson[iIndex], sizeof(TPerson));
             ptSTRes->iNDSLNum++;
         }
     }
