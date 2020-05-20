@@ -1,37 +1,71 @@
+# ------------------------------------------------
+# Generic Makefile
 #
-#CC := g++ # This is the main compiler
-CC := clang -arch x86_64 -std=c99 # and comment out the linker last line for sanity
-SRCDIR := src
-BUILDDIR := build
-TARGET := bin/ndsl3
-  
-SRCEXT := c
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g # -Wall
-#DEF := -DDEBUG 
-LIB := -L /usr/lib 
-INC := -I inc
+# Author: jcdkuo@gmail.com
+# Date  : 2020-05-20
+#
+# Changelog :
+#   2020-05-20 - first version
+# ------------------------------------------------
 
-$(TARGET): $(OBJECTS)
-	@echo " Linking..."
-	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
+# project name (generate executable with this name)
+TARGET   = ndsl3
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(DEF) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(DEF) $(INC) -c -o $@ $<
+# change these to proper directories where each file should be
+SRCDIR   = src
+INCDIR   = inc
+OBJDIR   = obj
+BINDIR   = bin
 
-clean:
-	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET); $(RM) -r $(BUILDDIR) $(OBJECTS)
+# Detect system OS
+detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 
-# Tests
-#tester:
-#$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
+# Clean the default value of CC
+#CC       =
 
-# Spikes
-ticket:
-	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+# Detect proper C compiler by system OS
+ifndef CC
+    ifeq ($(detected_OS),Darwin)
+        CC = clang -arch x86_64
+    else ifeq ($(detected_OS),Linux)
+        CC = gcc
+    else
+        CC = gcc
+    endif
+endif
+
+# compiling flags here
+INC      = -I $(INCDIR)
+LIB      = 
+#DEF      = -DDEBUG
+CFLAGS   = -std=c99 -g -Wall $(DEF) $(INC) $(LIB)
+
+LINKER   = gcc
+# linking flags here
+LFLAGS   = -Wall -I. -lm
+
+SOURCES  := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+rm       = rm -f
+
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@echo "Linking..."
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
+	@echo "Linking complete!"
+
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" "
 
 .PHONY: clean
+clean:
+	@echo "Cleaning...";
+	@$(rm) $(OBJECTS)
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Cleanup complete!"
 
+.PHONY: remove
+remove: clean
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"

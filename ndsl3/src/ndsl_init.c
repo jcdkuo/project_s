@@ -35,6 +35,8 @@ TPersonRawData g_szPerson[] = {
     { "Jerry",  "Kuo",  43, STATUS_IN_SERVICE,  TYPE_SENIOR,    13, COM_ALPHA},
     { "Sophie", "Wang", 26, STATUS_IN_SERVICE,  TYPE_JUNIOR,    2,  COM_BETA},
     { "Kent",   "Chen", 38, STATUS_IN_SERVICE,  TYPE_SENIOR,    12, COM_OMEGA},
+    { "Goku",   "Son",  47, STATUS_IN_SERVICE,  TYPE_GENIUS,    36, COM_JUMP},
+    { "Jerry",  "Wang", 26, STATUS_RETIREMENT,  TYPE_GENIUS,    8,  COM_FAIRY},
     { NULL,     NULL,   0,  0,                  0,              0,  0},
 };
 
@@ -42,15 +44,18 @@ TNnVPair g_atJobType[] = {
     {"Professor",       TYPE_TEACHER},
     {"Senior Engineer", TYPE_SENIOR},
     {"Junior Engineer", TYPE_JUNIOR},
+    {"Fighter",         TYPE_GENIUS},
     {"Unknown",         TYPE_UNKNOWN},
 };
 
 TNnVPair g_atCompany[] = {
-    {"NTUST",   COM_NTUST},
-    {"ALPHA",   COM_ALPHA},
-    {"BETA",    COM_BETA},
-    {"OMEGA",   COM_OMEGA},
-    {"Unknown", COM_UNKNOWN},
+    {"NTUST",           COM_NTUST},
+    {"ALPHA.com",       COM_ALPHA},
+    {"BETA Inc.",       COM_BETA},
+    {"OMEGA CO.",       COM_OMEGA},
+    {"Jump Comics",     COM_JUMP},
+    {"Fairyland",       COM_FAIRY},
+    {"Unknown",         COM_UNKNOWN},
 };
 
 SCODE NDSL_Initialize(TNDSL *ptNDSL)

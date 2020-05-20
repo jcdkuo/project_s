@@ -64,6 +64,8 @@ typedef struct {
 
 typedef struct {
 
+    /* Search Result */
+    bool        bResult;
     /* Request info handle */
     HANDLE      hSearchInfo;
     /* Initilizer handle */

@@ -55,7 +55,9 @@ SCODE ComposeSearchByName(TSearchInfo *ptSearch, char *pszName)
     ptSearch->iCommand = SEARCH_NAME;
     snprintf(ptSearch->acRecvBuffer, MAX_RECVBUFFER_SIZE, "%s", pszName);
 
+#ifdef DEBUG
     printf("%s:%d ptSearch->acRecvBuffer = %s\n", __func__, __LINE__, ptSearch->acRecvBuffer);
+#endif
 
     return S_OK;
 }
@@ -68,7 +70,9 @@ SCODE ComposeSearchByAge(TSearchInfo *ptSearch, char *pszAge)
     ptSearch->iCommand = SEARCH_AGE;
     snprintf(ptSearch->acRecvBuffer, MAX_RECVBUFFER_SIZE, "%s", pszAge);
 
+#ifdef DEBUG
     printf("%s:%d ptSearch->acRecvBuffer = %s\n", __func__, __LINE__, ptSearch->acRecvBuffer);
+#endif
 
     return S_OK;
 }
@@ -79,7 +83,9 @@ SCODE ComposeSearchByRetired(TSearchInfo *ptSearch)
 
     ptSearch->iCommand = SEARCH_RETIRED;
 
+#ifdef DEBUG
     printf("%s:%d ptSearch->iCommand = %d\n", __func__, __LINE__, ptSearch->iCommand);
+#endif
 
     return S_OK;
 }
@@ -92,7 +98,9 @@ SCODE ComposeSearchByTitle(TSearchInfo *ptSearch, char *pszJobName)
     ptSearch->iCommand = SEARCH_TITLE;
     snprintf(ptSearch->acRecvBuffer, MAX_RECVBUFFER_SIZE, "%s", pszJobName);
 
+#ifdef DEBUG
     printf("%s:%d ptSearch->acRecvBuffer = %s\n", __func__, __LINE__, ptSearch->acRecvBuffer);
+#endif
 
     return S_OK;
 }

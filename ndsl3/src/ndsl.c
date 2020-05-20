@@ -39,6 +39,9 @@ int main(int argc, char *argv[])
     TMessageHandler tMsgHandler;
     SCODE           sReturn = S_OK;
 
+    // Do not input any argument
+    if (argc == 1) usage();
+
     memset(&tSearchInfo, 0, sizeof(TSearchInfo));
 
 	while ((iCh = getopt(argc, argv, "n:a:t:rdh")) != -1) 
@@ -48,7 +51,7 @@ int main(int argc, char *argv[])
             GetRequest(&tSearchInfo, SEARCH_NAME, optarg);
 			break;
 		case 'a':
-            GetRequest(&tSearchInfo, SEARCH_AGE, optarg);
+            GetRequest(&tSearchInfo, SEARCH_AGE, optarg);       
 			break;
 		case 'r':
             GetRequest(&tSearchInfo, SEARCH_RETIRED, NULL);
@@ -59,6 +62,10 @@ int main(int argc, char *argv[])
 		case 'h':
 			usage();
 			break;
+        case '?': /* Error handle: Mainly missing arg or illegal option */
+            fprintf(stderr, "Illegal option:-%c\n", isprint(optopt)?optopt:'#');
+            usage();
+            break;
 		default:
             usage();
 		}
@@ -82,7 +89,10 @@ int main(int argc, char *argv[])
         return ERROR_HANDLE_MESSAGE_FAILED;
     }
 
-    printf("%s:%d %s\n", __func__, __LINE__, tMsgHandler.acSendBuffer);
+    // Output XML format results
+    if (strlen(tMsgHandler.acSendBuffer) != 0)
+        printf("\n%s:%d %s\n\n", __func__, __LINE__, tMsgHandler.acSendBuffer);
+
     return 0;
 }
 
