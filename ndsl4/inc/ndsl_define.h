@@ -25,7 +25,7 @@ typedef unsigned int SCODE;
 #define TRUE    1
 #define FALSE   0
 
-#define MAX_STRING_SIZE     32
+#define MAX_STRING_SIZE     64
 #define MAX_COMMAND_SIZE    32
 #define MAX_RECVBUFFER_SIZE 64
 #define MAX_SENDBUFFER_SIZE 2048

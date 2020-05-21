@@ -335,7 +335,7 @@ SCODE Process_SearchTitle(HANDLE hObject, TSearchTitle *ptST, TSearchResponse *p
 
 #ifdef DEBUG
         printf("%s:%d iNDSLNum = %d, iIndex:%d is a %s\n", __func__, __LINE__,
-                ptSRRes->iNDSLNum, iIndex, ptInit->atPerson[iIndex].tTitle.acName);
+                ptSTRes->iNDSLNum, iIndex, ptInit->atPerson[iIndex].tTitle.acName);
 #endif
     }
 

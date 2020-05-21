@@ -38,6 +38,10 @@ SCODE HandleMessage(TMessageHandler *ptMsg)
 
     memset(&tSearchHandler, 0, sizeof(TSearchHandler));
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     tSearchHandler.hSearchInfo  = ptMsg->hSearchInfo;
     tSearchHandler.hInitilizer  = ptMsg->hInitilizer;
     iBufferSize                 = sizeof(ptMsg->acSendBuffer);

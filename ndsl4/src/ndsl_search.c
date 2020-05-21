@@ -26,7 +26,7 @@ SCODE SearchByName(HANDLE hObject, char *pcOutput, int iBufferSize)
     TSearchResponse tSNRes;
     SCODE           sRet = S_OK;
 
-#ifdef DEBUG
+#ifdef TRACECODE
     TRACE(__func__, __LINE__);
 #endif
 
@@ -58,7 +58,7 @@ SCODE SearchByAge(HANDLE hObject, char *pcOutput, int iBufferSize)
     TSearchResponse tSARes;
     SCODE           sRet = S_OK;
 
-#ifdef DEBUG
+#ifdef TRACECODE
     TRACE(__func__, __LINE__);
 #endif
 
@@ -90,7 +90,7 @@ SCODE SearchByRetired(HANDLE hObject, char *pcOutput, int iBufferSize)
     TSearchResponse tSRRes;
     SCODE           sRet = S_OK;
 
-#ifdef DEBUG
+#ifdef TRACECODE
     TRACE(__func__, __LINE__);
 #endif
 
@@ -122,7 +122,7 @@ SCODE SearchByTitle(HANDLE hObject, char *pcOutput, int iBufferSize)
     TSearchResponse tSTRes;
     SCODE           sRet = S_OK;
 
-#ifdef DEBUG
+#ifdef TRACECODE
     TRACE(__func__, __LINE__);
 #endif
 
@@ -155,10 +155,14 @@ SCODE Parse_SearchName(HANDLE hObject, TSearchName *ptSN)
     TSearchHandler  *ptSearch   = (TSearchHandler *)hObject;
     TSearchInfo     *ptInfo     = (TSearchInfo *)ptSearch->hSearchInfo;
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     snprintf(ptSN->acName, MAX_RECVBUFFER_SIZE, "%s", ptInfo->acRecvBuffer);
 
 #ifdef DEBUG
-    printf("%s:%d ptSN->acName = %s\n", __func__, __LINE__, ptSN->acName);
+    DBPRINT("%s:%d ptSN->acName = %s\n", __func__, __LINE__, ptSN->acName);
 #endif
 
     return S_OK;
@@ -172,6 +176,10 @@ SCODE Parse_SearchAge(HANDLE hObject, TSearchAge *ptSA)
     TSearchInfo     *ptInfo     = (TSearchInfo *)ptSearch->hSearchInfo;
     int iIndex;
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     for (iIndex = 0; ptInfo->acRecvBuffer[iIndex] != 0; iIndex++)
     {
         if (!(isdigit(ptInfo->acRecvBuffer[iIndex])))
@@ -184,7 +192,7 @@ SCODE Parse_SearchAge(HANDLE hObject, TSearchAge *ptSA)
     ptSA->iAge = atoi(ptInfo->acRecvBuffer);
 
 #ifdef DEBUG
-    printf("%s:%d ptSA->iAge = %d\n", __func__, __LINE__, ptSA->iAge);
+    DBPRINT("%s:%d ptSA->iAge = %d\n", __func__, __LINE__, ptSA->iAge);
 #endif
 
     return S_OK;
@@ -194,10 +202,14 @@ SCODE Parse_SearachRetired(HANDLE hObject, TSearchRetired *ptSR)
 {
     RETURN_SFAIL_IF(checkNull(__func__, ptSR, "ptSR") != S_OK);
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     ptSR->bRetired = TRUE;
 
 #ifdef DEBUG
-    printf("%s:%d ptSR->bRetired = %d\n", __func__, __LINE__, (int)ptSR->bRetired);
+    DBPRINT("%s:%d ptSR->bRetired = %d\n", __func__, __LINE__, (int)ptSR->bRetired);
 #endif
 
     return S_OK;
@@ -210,10 +222,14 @@ SCODE Parse_SearchTitle(HANDLE hObject, TSearchTitle *ptST)
     TSearchHandler  *ptSearch   = (TSearchHandler *)hObject;
     TSearchInfo     *ptInfo     = (TSearchInfo *)ptSearch->hSearchInfo;
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     snprintf(ptST->tTitle.acName, MAX_STRING_SIZE, "%s", ptInfo->acRecvBuffer);
 
 #ifdef DEBUG
-    printf("%s:%d ptST->tTitle.acName = %s\n", __func__, __LINE__, ptST->tTitle.acName);
+    DBPRINT("%s:%d ptST->tTitle.acName = %s\n", __func__, __LINE__, ptST->tTitle.acName);
 #endif
 
     return S_OK;
@@ -227,20 +243,24 @@ SCODE Process_SearchName(HANDLE hObject, TSearchName *ptSN, TSearchResponse *ptS
 
     TSearchHandler  *ptSearch   = (TSearchHandler *)hObject;
     TNDSL           *ptInit     = (TNDSL *)ptSearch->hInitilizer;
-    char            acFullName[MAX_RECVBUFFER_SIZE];
+    char            acFullName[MAX_STRING_SIZE * 2];
     int             iIndex;
 
     memset(ptSNRes, 0, sizeof(TSearchResponse));
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     for (iIndex = 0; iIndex < ptInit->iNDSLNum; iIndex++)
     {
-        snprintf(acFullName, MAX_RECVBUFFER_SIZE, "%s %s",
+        snprintf(acFullName, (MAX_STRING_SIZE * 2), "%s %s",
             ptInit->atPerson[iIndex].tName.acFirstName, ptInit->atPerson[iIndex].tName.acLastName);
 
 #ifdef DEBUG
-        printf("%s:%d acFullName = %s\n", __func__, __LINE__, acFullName);
-        printf("%s:%d acFirstName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acFirstName);
-        printf("%s:%d acLastName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acLastName);
+        DBPRINT("%s:%d acFullName = %s\n", __func__, __LINE__, acFullName);
+        DBPRINT("%s:%d acFirstName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acFirstName);
+        DBPRINT("%s:%d acLastName = %s\n", __func__, __LINE__, ptInit->atPerson[iIndex].tName.acLastName);
 #endif
         // Compare any possible name
         if ((stringCompare(ptSN->acName, acFullName) == S_OK) ||
@@ -267,6 +287,10 @@ SCODE Process_SearchAge(HANDLE hObject, TSearchAge *ptSA, TSearchResponse *ptSAR
 
     memset(ptSARes, 0, sizeof(TSearchResponse));
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     for (iIndex = 0; iIndex < ptInit->iNDSLNum; iIndex++)
     {
         if (ptInit->atPerson[iIndex].iAge > ptSA->iAge)
@@ -276,7 +300,7 @@ SCODE Process_SearchAge(HANDLE hObject, TSearchAge *ptSA, TSearchResponse *ptSAR
         }
 
 #ifdef DEBUG
-        printf("%s:%d iNDSLNum = %d, if %d > %d\n", __func__, __LINE__,
+        DBPRINT("%s:%d iNDSLNum = %d, if %d > %d\n", __func__, __LINE__,
                 ptSARes->iNDSLNum, ptInit->atPerson[iIndex].iAge, ptSA->iAge);
 #endif
     }
@@ -296,6 +320,10 @@ SCODE Process_SearchRetired(HANDLE hObject, TSearchRetired *ptSR, TSearchRespons
 
     memset(ptSRRes, 0, sizeof(TSearchResponse));
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     for (iIndex = 0; iIndex < ptInit->iNDSLNum; iIndex++)
     {
         if (ptSR->bRetired == ptInit->atPerson[iIndex].bRetired)
@@ -305,7 +333,7 @@ SCODE Process_SearchRetired(HANDLE hObject, TSearchRetired *ptSR, TSearchRespons
         }
 
 #ifdef DEBUG
-        printf("%s:%d iNDSLNum = %d, iIndex:%d Retired = %d\n", __func__, __LINE__,
+        DBPRINT("%s:%d iNDSLNum = %d, iIndex:%d Retired = %d\n", __func__, __LINE__,
                 ptSRRes->iNDSLNum, iIndex, (int)ptInit->atPerson[iIndex].bRetired);
 #endif
     }
@@ -325,6 +353,10 @@ SCODE Process_SearchTitle(HANDLE hObject, TSearchTitle *ptST, TSearchResponse *p
 
     memset(ptSTRes, 0, sizeof(TSearchResponse));
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     for (iIndex = 0; iIndex < ptInit->iNDSLNum; iIndex++)
     {
         if (strCaseCompare(ptST->tTitle.acName, ptInit->atPerson[iIndex].tTitle.acName) == S_OK)
@@ -334,7 +366,7 @@ SCODE Process_SearchTitle(HANDLE hObject, TSearchTitle *ptST, TSearchResponse *p
         }
 
 #ifdef DEBUG
-        printf("%s:%d iNDSLNum = %d, iIndex:%d is a %s\n", __func__, __LINE__,
+        DBPRINT("%s:%d iNDSLNum = %d, iIndex:%d is a %s\n", __func__, __LINE__,
                 ptSTRes->iNDSLNum, iIndex, ptInit->atPerson[iIndex].tTitle.acName);
 #endif
     }
@@ -356,6 +388,10 @@ SCODE Compose_SearchResponse(TSearchResponse *ptRes, char *pcOutput, int iBuffer
 {
     int         iResult = 0, iIndex = 0;
     TPerson     *ptPerson;
+
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
 
     for (iIndex = 0; iIndex < ptRes->iNDSLNum; iIndex++)
     {
@@ -385,6 +421,10 @@ SCODE Compose_SearchResponse(TSearchResponse *ptRes, char *pcOutput, int iBuffer
 SCODE Compose_SearchFault(char *pcOutput, int iBufferSize)
 {
     int         iResult = 0;
+
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
 
     iResult += snprintf(pcOutput + iResult, iBufferSize - iResult - 1, "<xml>");
 

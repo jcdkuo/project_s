@@ -22,7 +22,9 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <strings.h>
 #include <unistd.h>
+#include <getopt.h>
 #include <time.h>
 #include <ctype.h>
 

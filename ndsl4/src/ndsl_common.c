@@ -62,6 +62,10 @@ SCODE NDSL_Show(TNDSL *ptNDSL)
     RETURN_SFAIL_IF(checkNull(__func__, ptNDSL, "ptNDSL") != S_OK);
     RETURN_SFAIL_IF(ptNDSL->iNDSLNum < 0);
 
+#ifdef TRACECODE
+    TRACE(__func__, __LINE__);
+#endif
+
     int iIndex;
 
     for (iIndex = 0; iIndex < ptNDSL->iNDSLNum; iIndex++)

@@ -8,6 +8,8 @@
 #   2020-05-20 - first version
 # ------------------------------------------------
 
+include config.mk
+
 # project name (generate executable with this name)
 TARGET   := $(shell basename $${PWD})
 
@@ -35,11 +37,21 @@ ifndef CC
 endif
 
 # compiling flags here
+ifeq ($(DEBUG),on)
+	DEB = -DDEBUG
+endif
+
+ifeq ($(INITIAL), on)
+	DEF += -DINIT
+endif
+
+ifeq ($(TRACECODE), on)
+	DEF += -DTRACECODE
+endif
+
 INC      = -I $(INCDIR)
 LIB      = 
-DEF      = -DINITAIL 
-DEB		 = -DDEBUG
-CFLAGS   = -std=c99 -g -Wall $(DEBUG) $(DEF) $(INC) $(LIB)
+CFLAGS   = -std=c99 -g -Wall $(DEB) $(DEF) $(INC) $(LIB)
 
 LINKER   = gcc
 # linking flags here

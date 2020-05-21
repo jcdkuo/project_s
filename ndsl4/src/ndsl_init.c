@@ -87,7 +87,9 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
 
     // Show Info
 #ifdef INIT
+    INITIAL("%s:%d [Show all raw data]\n\n", __func__, __LINE__);
     RETURN_SFAIL_IF_NOT(NDSL_Show(ptInitNDSL) == S_OK);
+    INITIAL("%s:%d [EOF]\n\n", __func__, __LINE__);
 #endif
 
     return S_OK;
