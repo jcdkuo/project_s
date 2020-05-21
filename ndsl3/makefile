@@ -9,7 +9,7 @@
 # ------------------------------------------------
 
 # project name (generate executable with this name)
-TARGET   = ndsl3
+TARGET   := $(shell basename $${PWD})
 
 # change these to proper directories where each file should be
 SRCDIR   = src
@@ -37,8 +37,9 @@ endif
 # compiling flags here
 INC      = -I $(INCDIR)
 LIB      = 
-#DEF      = -DDEBUG
-CFLAGS   = -std=c99 -g -Wall $(DEF) $(INC) $(LIB)
+DEF      = 
+#DEBUG    = -DDEBUG
+CFLAGS   = -std=c99 -g -Wall $(DEBUG) $(DEF) $(INC) $(LIB)
 
 LINKER   = gcc
 # linking flags here
