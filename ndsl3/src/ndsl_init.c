@@ -29,14 +29,13 @@ static SCODE GetAge(unsigned int *piAge, int iIndex);
 static SCODE GetJobStatus(bool *pbStatus, int iIndex);
 static SCODE GetTitle(TTitle *ptTitle, int iIndex);
 static SCODE GetCompany(TCompany *ptCompany, int iIndex);
-static SCODE NDSL_Show(TNDSL *ptNDSL);
 
 TPersonRawData g_szPerson[] = {
     { "Jimmy",  "Chiu", 67, STATUS_RETIREMENT,  TYPE_TEACHER,   30, COM_NTUST},
     { "Jerry",  "Kuo",  43, STATUS_IN_SERVICE,  TYPE_SENIOR,    13, COM_ALPHA},
     { "Sophie", "Wang", 26, STATUS_IN_SERVICE,  TYPE_JUNIOR,    2,  COM_BETA},
     { "Kent",   "Chen", 38, STATUS_IN_SERVICE,  TYPE_SENIOR,    12, COM_OMEGA},
-    { NULL,     NULL,   0,  0,                  0,              0,  0},
+    { NULL,     NULL,   0,  STATUS_UNKNOWN,     TYPE_UNKNOWN,   0,  COM_UNKNOWN},
 };
 
 TNnVPair g_atJobType[] = {
