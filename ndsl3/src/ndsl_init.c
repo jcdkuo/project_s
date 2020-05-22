@@ -29,6 +29,7 @@ static SCODE GetAge(unsigned int *piAge, int iIndex);
 static SCODE GetJobStatus(bool *pbStatus, int iIndex);
 static SCODE GetTitle(TTitle *ptTitle, int iIndex);
 static SCODE GetCompany(TCompany *ptCompany, int iIndex);
+static SCODE NDSL_Show(TNDSL *ptNDSL);
 
 TPersonRawData g_szPerson[] = {
     { "Jimmy",  "Chiu", 67, STATUS_RETIREMENT,  TYPE_TEACHER,   30, COM_NTUST},
