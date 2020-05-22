@@ -13,7 +13,7 @@
 - Revise makefile for general use
 ![screencast](doc/ndsl3/ndsl3_usage.png)
 
-Enter into the ndsl4 foler and run the binary, for example :
+Enter into the ndsl3 foler and run the binary, for example :
 
     bin/ndsl3 -n Jerry
     bin/ndsl3 -n "Jerry Kuo"
