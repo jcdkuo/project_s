@@ -9,7 +9,7 @@ SRCEXT := c
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
 CFLAGS := -g # -Wall
-DEF := 
+#DEF := -DDEBUG 
 LIB := -L /usr/lib 
 INC := -I inc
 

@@ -17,8 +17,18 @@
 
 #include "ndsl.h"
 
+#define SPACE   HasEmptySpace
+#define DATA    StillHasData
+
 /* Static Functions */
-static SCODE NDSL_Show(TNDSL *ptNDSL);
+static bool HasEmptySpace(int iIndex);
+static bool StillHasData(int iIndex);
+static SCODE GetPerson(TPerson *ptPerson, int iIndex);
+static SCODE GetName(TName *ptName, int iIndex);
+static SCODE GetAge(unsigned int *piAge, int iIndex);
+static SCODE GetJobStatus(bool *pbStatus, int iIndex);
+static SCODE GetTitle(TTitle *ptTitle, int iIndex);
+static SCODE GetCompany(TCompany *ptCompany, int iIndex);
 
 TPersonRawData g_szPerson[] = {
     { "Jimmy",  "Chiu", 67, STATUS_RETIREMENT,  TYPE_TEACHER,   30, COM_NTUST},
@@ -48,64 +58,31 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
     RETURN_SFAIL_IF(checkNull(__func__, ptNDSL, "ptNDSL") != S_OK);
 
     TNDSL *ptInitNDSL = ptNDSL;
-    int iIndex = 0;
+    int iPerson = 0;
 
     // Sanitize
     memset(ptInitNDSL, 0, sizeof(TNDSL));
+
+#ifdef DEBUG
     printf("\n%s:%d iNDSLNum = %d\n\n", __func__, __LINE__, ptInitNDSL->iNDSLNum);
+#endif
 
     // Initialize
-    while ((ptInitNDSL->iNDSLNum < MAX_PERSON_NUM) && (g_szPerson[ptInitNDSL->iNDSLNum].cpcFirstName != NULL))
+    while (SPACE(iPerson) && DATA(iPerson))
     {
-        // Get Name
-        snprintf(ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].tName.acFirstName, MAX_STRING_SIZE, "%s", g_szPerson[ptInitNDSL->iNDSLNum].cpcFirstName);
-        snprintf(ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].tName.acLastName, MAX_STRING_SIZE, "%s", g_szPerson[ptInitNDSL->iNDSLNum].cpcLastName);
-
-        // Get Age
-        ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].iAge = g_szPerson[ptInitNDSL->iNDSLNum].iAge;
-
-        // Get Job Status
-        switch (g_szPerson[ptInitNDSL->iNDSLNum].eJobStatus)
-        {
-            case STATUS_IN_SERVICE:
-                ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = FALSE;
-                break;
-            case STATUS_RETIREMENT:
-                ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].bRetired = TRUE;
-                break;
-            case STATUS_IN_SCHOOL:
-            case STATUS_UNKNOWN:
-                // No related information
-            default:
-                printf("\n%s:%d Wrong Job Status!\n\n", __func__, __LINE__);
-        }
-
-        // Get Job Type
-        for (iIndex = 0; iIndex < TYPE_UNKNOWN; iIndex++)
-        {
-            if (g_szPerson[ptInitNDSL->iNDSLNum].eJobType == g_atJobType[iIndex].iValue)
-            {
-                snprintf(ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].tTitle.acName, MAX_STRING_SIZE, "%s", g_atJobType[iIndex].cpcName);
-            }
-        }
-
-        // Get Seniority
-        ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].tTitle.iSeniority = g_szPerson[ptInitNDSL->iNDSLNum].iSeniority;
-
-        // Get Company
-        for (iIndex = 0; iIndex < COM_UNKNOWN; iIndex++)
-        {
-            if (g_szPerson[ptInitNDSL->iNDSLNum].eCompany == g_atCompany[iIndex].iValue)
-            {
-                snprintf(ptInitNDSL->atPerson[ptInitNDSL->iNDSLNum].tCompany.acName, MAX_STRING_SIZE, "%s", g_atCompany[iIndex].cpcName);
-            }
-        }
+        // Person Information
+        RETURN_SFAIL_IF(GetPerson(&ptInitNDSL->atPerson[iPerson], iPerson) != S_OK);
 
         // Person Count
-        ptInitNDSL->iNDSLNum++;
+        iPerson++;
     }
 
+    // Total number of Persons
+    ptInitNDSL->iNDSLNum = iPerson;
+
+#ifdef DEBUG
     printf("\n%s:%d iNDSLNum = %d\n\n", __func__, __LINE__, ptInitNDSL->iNDSLNum);
+#endif
 
     // Show Info
     RETURN_SFAIL_IF_NOT(NDSL_Show(ptInitNDSL) == S_OK);
@@ -113,9 +90,144 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
     return S_OK;
 }
 
+static bool HasEmptySpace(int iIndex)
+{
+    return (iIndex < MAX_PERSON_NUM)?TRUE:FALSE;
+}
+
+static bool StillHasData(int iIndex)
+{
+    return (g_szPerson[iIndex].cpcFirstName != NULL)?TRUE:FALSE;
+}
+
+static SCODE GetPerson(TPerson *ptPerson, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, ptPerson, "ptPerson") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+#ifdef DEBUG
+    printf("\n%s:%d GetPerson Index: %d\n", __func__, __LINE__, iIndex);
+#endif
+
+    RETURN_SFAIL_IF(GetName(&ptPerson->tName, iIndex) != S_OK);
+    RETURN_SFAIL_IF(GetAge(&ptPerson->iAge, iIndex) != S_OK);
+    RETURN_SFAIL_IF(GetJobStatus(&ptPerson->bRetired, iIndex) != S_OK);
+    RETURN_SFAIL_IF(GetTitle(&ptPerson->tTitle, iIndex) != S_OK);
+    RETURN_SFAIL_IF(GetCompany(&ptPerson->tCompany, iIndex) != S_OK);
+
+    return S_OK;
+}
+
+static SCODE GetName(TName *ptName, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, ptName, "ptName") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+    snprintf(ptName->acFirstName, MAX_STRING_SIZE, "%s", g_szPerson[iIndex].cpcFirstName);
+    snprintf(ptName->acLastName, MAX_STRING_SIZE, "%s", g_szPerson[iIndex].cpcLastName);
+
+#ifdef DEBUG
+    printf("%s:%d ptName->acFirstName = %s\n", __func__, __LINE__, ptName->acFirstName);
+    printf("%s:%d ptName->acLastName = %s\n", __func__, __LINE__, ptName->acLastName);
+#endif
+
+    return S_OK;
+}
+
+static SCODE GetAge(unsigned int *piAge, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, piAge, "piAge") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+    *piAge = g_szPerson[iIndex].iAge;
+
+#ifdef DEBUG
+    printf("%s:%d *piAge = %d\n", __func__, __LINE__, *piAge);
+#endif
+
+    return S_OK;
+}
+
+static SCODE GetJobStatus(bool *pbStatus, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, pbStatus, "pbStatus") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+    switch (g_szPerson[iIndex].eJobStatus)
+    {
+        case STATUS_IN_SERVICE:
+            *pbStatus = FALSE;
+            break;
+        case STATUS_RETIREMENT:
+            *pbStatus = TRUE;
+            break;
+        case STATUS_IN_SCHOOL:
+        case STATUS_UNKNOWN:
+            // No related information
+            printf("\n%s:%d Not Support!\n\n", __func__, __LINE__);
+            break;
+        default:
+            printf("\n%s:%d Wrong Job Status!\n\n", __func__, __LINE__);
+            break;
+    }
+
+#ifdef DEBUG
+    printf("%s:%d *pbStatus = %d\n", __func__, __LINE__, (int)*pbStatus);
+#endif
+
+    return S_OK;
+}
+
+static SCODE GetTitle(TTitle *ptTitle, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, ptTitle, "ptTitle") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+    int iType = 0;
+
+    for (iType = 0; iType < TYPE_UNKNOWN; iType++)
+    {
+        if (g_szPerson[iIndex].eJobType == g_atJobType[iType].iValue)
+        {
+            snprintf(ptTitle->acName, MAX_STRING_SIZE, "%s", g_atJobType[iType].cpcName);
+        }
+    }
+
+    ptTitle->iSeniority = g_szPerson[iIndex].iSeniority;
+
+#ifdef DEBUG
+    printf("%s:%d ptTitle->acName = %s\n", __func__, __LINE__, ptTitle->acName);
+    printf("%s:%d ptTitle->iSeniority = %d\n", __func__, __LINE__, ptTitle->iSeniority);
+#endif
+
+    return S_OK;
+}
+
+static SCODE GetCompany(TCompany *ptCompany, int iIndex)
+{
+    RETURN_SFAIL_IF(checkNull(__func__, ptCompany, "ptCompany") != S_OK);
+    RETURN_SFAIL_IF((iIndex < 0) || (iIndex > MAX_PERSON_NUM));
+
+    int iCompany = 0;
+
+    for (iCompany = 0; iCompany < COM_UNKNOWN; iCompany++)
+    {
+        if (g_szPerson[iIndex].eCompany == g_atCompany[iCompany].iValue)
+        {
+            snprintf(ptCompany->acName, MAX_STRING_SIZE, "%s", g_atCompany[iCompany].cpcName);
+        }
+    }
+
+#ifdef DEBUG
+    printf("%s:%d ptCompany->acName = %s\n", __func__, __LINE__, ptCompany->acName);
+#endif
+
+    return S_OK;
+}
+
 static SCODE NDSL_Show(TNDSL *ptNDSL)
 {
-    RETURN_SFAIL_IF_NULL(ptNDSL);
+    RETURN_SFAIL_IF(checkNull(__func__, ptNDSL, "ptNDSL") != S_OK);
     RETURN_SFAIL_IF(ptNDSL->iNDSLNum < 0);
 
     int iIndex;
