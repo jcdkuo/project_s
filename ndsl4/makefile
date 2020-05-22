@@ -1,5 +1,5 @@
 # ------------------------------------------------
-# Generic Makefile
+# J Ger Makefile
 #
 # Author: jcdkuo@gmail.com
 # Date  : 2020-05-20
@@ -37,15 +37,15 @@ ifndef CC
 endif
 
 # compiling flags here
-ifeq ($(DEBUG),on)
+ifeq ($(DEBUG_MODE), y)
 	DEB = -DDEBUG
 endif
 
-ifeq ($(INITIAL), on)
+ifeq ($(SHOW_INITIAL), y)
 	DEF += -DINIT
 endif
 
-ifeq ($(TRACECODE), on)
+ifeq ($(TRACE_CODE), y)
 	DEF += -DTRACECODE
 endif
 
