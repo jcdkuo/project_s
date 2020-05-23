@@ -37,7 +37,7 @@ TPersonRawData g_szPerson[] = {
     { "Kent",   "Chen", 38, STATUS_IN_SERVICE,  TYPE_SENIOR,    12, COM_OMEGA},
     { "Goku",   "Son",  47, STATUS_IN_SERVICE,  TYPE_GENIUS,    36, COM_JUMP},
     { "Jerry",  "Wang", 26, STATUS_RETIREMENT,  TYPE_GENIUS,    8,  COM_FAIRY},
-    { NULL,     NULL,   0,  0,                  0,              0,  0},
+    { NULL,     NULL,   0,  STATUS_UNKNOWN,     TYPE_UNKNOWN,   0,  COM_UNKNOWN},
 };
 
 TNnVPair g_atJobType[] = {
