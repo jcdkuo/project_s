@@ -15,23 +15,32 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_H__
-#define __NDSL_H__
+#ifndef __NDSL_MESSAGE_H__
+#define __NDSL_MESSAGE_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <ctype.h>
+typedef SCODE (*FNDSLProcess)(HANDLE hObject, char *pcOutput, int iBufferSize);
 
-#include "ndsl_define.h"
-#include "ndsl_common.h"
-#include "ndsl_init.h"
-#include "ndsl_search.h"
-#include "ndsl_request.h"
-#include "ndsl_message.h"
+typedef struct {
 
+    /* Action name */
+    int             iCommandType;
+    /* Fucntion to handle the action */
+    FNDSLProcess    pfnProcess;
 
-#endif // _NDSL_H
+} TNDSLMethod;
+
+typedef struct {
+
+    /* Request info handle */
+    HANDLE      hSearchInfo;
+    /* Initilizer handle */
+    HANDLE      hInitilizer;
+    /* Output */
+    char        acSendBuffer[MAX_SENDBUFFER_SIZE];
+
+} TMessageHandler;
+
+/* Functions */
+SCODE HandleMessage(TMessageHandler *ptMsg);
+
+#endif // __NDSL_MESSAGE_H__

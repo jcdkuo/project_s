@@ -15,23 +15,15 @@
  *  +-----------------------------------------------------------------+
  */
 
-#ifndef __NDSL_H__
-#define __NDSL_H__
+#ifndef __NDSL_REQUEST_H__
+#define __NDSL_REQUEST_H__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
-#include <unistd.h>
-#include <time.h>
-#include <ctype.h>
+#include "ndsl.h"
 
-#include "ndsl_define.h"
-#include "ndsl_common.h"
-#include "ndsl_init.h"
-#include "ndsl_search.h"
-#include "ndsl_request.h"
-#include "ndsl_message.h"
+SCODE GetRequest(TSearchInfo *ptSearch, int iSearchType, char *optarg);
+SCODE ComposeSearchByName(TSearchInfo *ptSearch, char *pszName);
+SCODE ComposeSearchByAge(TSearchInfo *ptSearch, char *pszAge);
+SCODE ComposeSearchByRetired(TSearchInfo *ptSearch);
+SCODE ComposeSearchByTitle(TSearchInfo *ptSearch, char *pszJobName);
 
-
-#endif // _NDSL_H
+#endif // __NDSL_REQUEST_H__

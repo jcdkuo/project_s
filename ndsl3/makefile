@@ -1,6 +1,29 @@
+# ------------------------------------------------
+# Generic Makefile
 #
-#CC := g++ # This is the main compiler
+# Author: jcdkuo@gmail.com
+# Date  : 2020-05-20
+#
+# Changelog :
+#   2020-05-20 - first version
+# ------------------------------------------------
 
+# project name (generate executable with this name)
+TARGET   := $(shell basename $${PWD})
+
+# change these to proper directories where each file should be
+SRCDIR   = src
+INCDIR   = inc
+OBJDIR   = obj
+BINDIR   = bin
+
+# Detect system OS
+detected_OS := $(shell sh -c 'uname -s 2>/dev/null || echo not')
+
+# Clean the default value of CC
+#CC       =
+
+# Detect proper C compiler by system OS
 ifndef CC
     ifeq ($(detected_OS),Darwin)
         CC = clang -arch x86_64
@@ -11,37 +34,41 @@ ifndef CC
     endif
 endif
 
-SRCDIR := src
-BUILDDIR := build
-TARGET := bin/ndsl3
-  
-SRCEXT := c
-SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
-OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))
-CFLAGS := -g # -Wall
-#DEF := -DDEBUG 
-LIB := -L /usr/lib 
-INC := -I inc
+# compiling flags here
+INC      = -I $(INCDIR)
+LIB      = 
+DEF      = 
+#DEBUG    = -DDEBUG
+CFLAGS   = -std=c99 -g -Wall $(DEBUG) $(DEF) $(INC) $(LIB)
 
-$(TARGET): $(OBJECTS)
-	@echo " Linking..."
-	@echo " $(CC) $^ -o $(TARGET) $(LIB)"; $(CC) $^ -o $(TARGET) $(LIB)
+LINKER   = gcc
+# linking flags here
+LFLAGS   = -Wall -I. -lm
 
-$(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
-	@mkdir -p $(BUILDDIR)
-	@echo " $(CC) $(CFLAGS) $(DEF) $(INC) -c -o $@ $<"; $(CC) $(CFLAGS) $(DEF) $(INC) -c -o $@ $<
+SOURCES  := $(wildcard $(SRCDIR)/*.c)
+INCLUDES := $(wildcard $(SRCDIR)/*.h)
+OBJECTS  := $(SOURCES:$(SRCDIR)/%.c=$(OBJDIR)/%.o)
+rm       = rm -f
 
-clean:
-	@echo " Cleaning..."; 
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET); $(RM) -r $(BUILDDIR) $(OBJECTS)
+$(BINDIR)/$(TARGET): $(OBJECTS)
+	@mkdir -p $(BINDIR)
+	@echo "Linking..."
+	@$(LINKER) $(OBJECTS) $(LFLAGS) -o $@
+	@echo "Linking complete!"
 
-# Tests
-#tester:
-#$(CC) $(CFLAGS) test/tester.cpp $(INC) $(LIB) -o bin/tester
-
-# Spikes
-ticket:
-	$(CC) $(CFLAGS) spikes/ticket.cpp $(INC) $(LIB) -o bin/ticket
+$(OBJECTS): $(OBJDIR)/%.o : $(SRCDIR)/%.c
+	@mkdir -p $(OBJDIR)
+	@$(CC) $(CFLAGS) -c $< -o $@
+	@echo "Compiled "$<" "
 
 .PHONY: clean
+clean:
+	@echo "Cleaning...";
+	@$(rm) $(OBJECTS)
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Cleanup complete!"
 
+.PHONY: remove
+remove: clean
+	@$(rm) $(BINDIR)/$(TARGET)
+	@echo "Executable removed!"

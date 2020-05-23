@@ -29,13 +29,14 @@ static SCODE GetAge(unsigned int *piAge, int iIndex);
 static SCODE GetJobStatus(bool *pbStatus, int iIndex);
 static SCODE GetTitle(TTitle *ptTitle, int iIndex);
 static SCODE GetCompany(TCompany *ptCompany, int iIndex);
-static SCODE NDSL_Show(TNDSL *ptNDSL);
 
 TPersonRawData g_szPerson[] = {
     { "Jimmy",  "Chiu", 67, STATUS_RETIREMENT,  TYPE_TEACHER,   30, COM_NTUST},
     { "Jerry",  "Kuo",  43, STATUS_IN_SERVICE,  TYPE_SENIOR,    13, COM_ALPHA},
     { "Sophie", "Wang", 26, STATUS_IN_SERVICE,  TYPE_JUNIOR,    2,  COM_BETA},
     { "Kent",   "Chen", 38, STATUS_IN_SERVICE,  TYPE_SENIOR,    12, COM_OMEGA},
+    { "Goku",   "Son",  47, STATUS_IN_SERVICE,  TYPE_GENIUS,    36, COM_JUMP},
+    { "Jerry",  "Wang", 26, STATUS_RETIREMENT,  TYPE_GENIUS,    8,  COM_FAIRY},
     { NULL,     NULL,   0,  STATUS_UNKNOWN,     TYPE_UNKNOWN,   0,  COM_UNKNOWN},
 };
 
@@ -43,15 +44,18 @@ TNnVPair g_atJobType[] = {
     {"Professor",       TYPE_TEACHER},
     {"Senior Engineer", TYPE_SENIOR},
     {"Junior Engineer", TYPE_JUNIOR},
+    {"Fighter",         TYPE_GENIUS},
     {"Unknown",         TYPE_UNKNOWN},
 };
 
 TNnVPair g_atCompany[] = {
-    {"NTUST",   COM_NTUST},
-    {"ALPHA",   COM_ALPHA},
-    {"BETA",    COM_BETA},
-    {"OMEGA",   COM_OMEGA},
-    {"Unknown", COM_UNKNOWN},
+    {"NTUST",           COM_NTUST},
+    {"ALPHA.com",       COM_ALPHA},
+    {"BETA Inc.",       COM_BETA},
+    {"OMEGA CO.",       COM_OMEGA},
+    {"Jump Comics",     COM_JUMP},
+    {"Fairyland",       COM_FAIRY},
+    {"Unknown",         COM_UNKNOWN},
 };
 
 SCODE NDSL_Initialize(TNDSL *ptNDSL)
@@ -86,7 +90,9 @@ SCODE NDSL_Initialize(TNDSL *ptNDSL)
 #endif
 
     // Show Info
+#ifdef DEBUG
     RETURN_SFAIL_IF_NOT(NDSL_Show(ptInitNDSL) == S_OK);
+#endif
 
     return S_OK;
 }
@@ -222,33 +228,6 @@ static SCODE GetCompany(TCompany *ptCompany, int iIndex)
 #ifdef DEBUG
     printf("%s:%d ptCompany->acName = %s\n", __func__, __LINE__, ptCompany->acName);
 #endif
-
-    return S_OK;
-}
-
-static SCODE NDSL_Show(TNDSL *ptNDSL)
-{
-    RETURN_SFAIL_IF(checkNull(__func__, ptNDSL, "ptNDSL") != S_OK);
-    RETURN_SFAIL_IF(ptNDSL->iNDSLNum < 0);
-
-    int iIndex;
-
-    for (iIndex = 0; iIndex < ptNDSL->iNDSLNum; iIndex++)
-    {
-        printf("--- %d ---\n", (iIndex + 1));
-        printf("Name     : %s %s\n", ptNDSL->atPerson[iIndex].tName.acFirstName, ptNDSL->atPerson[iIndex].tName.acLastName);
-        printf("Age      : %d\n", ptNDSL->atPerson[iIndex].iAge);
-
-        if (ptNDSL->atPerson[iIndex].bRetired == TRUE)
-            printf("Status   : Retirement\n");
-        else
-            printf("Status   : Not Retired\n");
-
-        printf("Job      : %s\n", ptNDSL->atPerson[iIndex].tTitle.acName);
-        printf("Seniority: %d\n", ptNDSL->atPerson[iIndex].tTitle.iSeniority);
-        printf("Company  : %s\n", ptNDSL->atPerson[iIndex].tCompany.acName);
-        printf("\n");
-    }
 
     return S_OK;
 }

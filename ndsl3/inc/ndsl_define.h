@@ -25,8 +25,11 @@ typedef unsigned int SCODE;
 #define TRUE    1
 #define FALSE   0
 
-#define MAX_STRING_SIZE 32
-#define MAX_PERSON_NUM  10
+#define MAX_STRING_SIZE     32
+#define MAX_COMMAND_SIZE    32
+#define MAX_RECVBUFFER_SIZE 64
+#define MAX_SENDBUFFER_SIZE 2048
+#define MAX_PERSON_NUM      10
 
 #define RETURN_SOK_IF(expr) if (expr) return S_OK;
 #define RETURN_SOK_IF_NOT(expr) if (!expr) return S_OK;
@@ -50,5 +53,9 @@ typedef unsigned int SCODE;
 
 #define ERROR_INITIALIZATION_FAILED (-1)
 #define ERROR_SHOW_MESSAGE_FAILED   (-2)
+#define ERROR_HANDLE_MESSAGE_FAILED (-3)
+
+#define INITIALIZATION_FAILED   "Initialization Failed!"
+#define HANDLE_MESSAGE_FAILED   "Handle Message Failed!"
 
 #endif //__NDSL_DEFINE_H__
