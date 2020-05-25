@@ -35,14 +35,14 @@
 #define LIGHT_GRAY      "\033[0;37m"
 #define WHITE           "\033[1;37m"
 
-#define TRACE(file, line)								printf(LIGHT_GRAY"[TRACE][%s][%d]\n"CLEAR, file, line)
-#define ERROR(fmt, args...)								printf(RED"[ERROR] "fmt""CLEAR, ##args)
-#define WARN(fmt, args...)								printf(YELLOW"[WARNING] "fmt""CLEAR, ##args)
-#define INFO(fmt, args...)								printf(LIGHT_CYAN"[INFO] "fmt""CLEAR, ##args)
-#define DBPRINT(fmt, args...)							printf(BLUE"[DEBUG] "fmt""CLEAR, ##args)
-#define INITIAL(fmt, args...)							printf(LIGHT_GREEN"[INITIAL] "fmt""CLEAR, ##args)
-#define USERDEF1(fmt, args...)						    printf(PURPLE"[USERDEF1] "fmt""CLEAR, ##args)
+#define TRACE(file, line)                               printf(LIGHT_GRAY"[TRACE][%s][%d]\n"CLEAR, file, line)
+#define ERROR(fmt, args...)                             printf(RED"[ERROR] "fmt""CLEAR, ##args)
+#define WARN(fmt, args...)                              printf(YELLOW"[WARNING] "fmt""CLEAR, ##args)
+#define INFO(fmt, args...)                              printf(LIGHT_CYAN"[INFO] "fmt""CLEAR, ##args)
+#define DBPRINT(fmt, args...)                           printf(BLUE"[DEBUG] "fmt""CLEAR, ##args)
+#define INITIAL(fmt, args...)                           printf(LIGHT_GREEN"[INITIAL] "fmt""CLEAR, ##args)
+#define USERDEF1(fmt, args...)                          printf(PURPLE"[USERDEF1] "fmt""CLEAR, ##args)
 #define USERDEF2(fmt, args...)                          printf(PURPLE"[USERDEF2] "fmt""CLEAR, ##args)
-#define USERDEF3(fmt, args...)							printf(LIGHT_RED"[USERDEF3] "fmt""CLEAR, ##args)
+#define USERDEF3(fmt, args...)                          printf(LIGHT_RED"[USERDEF3] "fmt""CLEAR, ##args)
 
 #endif // __NDSL_DEBUG_H__
