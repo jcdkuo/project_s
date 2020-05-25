@@ -3,7 +3,18 @@
 #
 # 
 #CC := g++ # This is the main compiler
-CC := clang -arch x86_64 -std=c99 # and comment out the linker last line for sanity
+#CC := clang -arch x86_64 -std=c99 # and comment out the linker last line for sanity
+
+ifndef CC
+    ifeq ($(detected_OS),Darwin)
+        CC = clang -arch x86_64
+    else ifeq ($(detected_OS),Linux)
+        CC = gcc
+    else
+        CC = gcc
+    endif
+endif
+
 SRCDIR := src
 BUILDDIR := build
 TARGET := bin/ndsl

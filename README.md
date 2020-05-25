@@ -20,3 +20,9 @@ Enter into the ndsl3 foler and run the binary, for example :
     bin/ndsl3 -a 30
     bin/ndsl3 -r
     bin/ndsl3 -t professor
+
+## ndsl4
+- Advanced debugging messages
+- Add config.mk to control the definition of makefile
+![screencast](doc/ndsl4/ndsl4_config_mk.png)
+
