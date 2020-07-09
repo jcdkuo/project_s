@@ -26,3 +26,8 @@ Enter into the ndsl3 foler and run the binary, for example :
 - Add config.mk to control the definition of makefile
 ![screencast](doc/ndsl4/ndsl4_config_mk.png)
 
+## sm (State Machine)
+- State Machine Design in C
+![screencast](doc/sm/3way_handshake.png) 
+![screencast](doc/sm/client_connect_to.png)
+![screencast](doc/sm/server_startup.png) 
