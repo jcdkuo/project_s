@@ -1,16 +1,16 @@
 #include "state.h"
 
 enum _cmd {
-	CMD_UNKNOWN         = 0,
+	CMD_UNKNOWN			= 0,
     CMD_3WAY_HANDSHAKE  = 1,
     CMD_CLIENT_CONNECT  = 2,
     CMD_SERVER_STARTUP  = 3,
 } ECmd;
 
 static TState g_ptStateTable[] = {
-    [STATE_DONE]	= {"Done", 		State_Done, 	STATE_DONE,		1},
-    [STATE_SYN]     = {"Syn",		State_Syn,		STATE_SYN_ACK,	0},
-    [STATE_SYN_ACK] = {"Syn-Ack", 	State_Syn_Ack, 	STATE_ACK,		0},
+    [STATE_DONE]	= {"Done", 		State_Done,		STATE_DONE,		1},
+    [STATE_SYN]		= {"Syn",		State_Syn,		STATE_SYN_ACK,	0},
+    [STATE_SYN_ACK] = {"Syn-Ack", 	State_Syn_Ack,	STATE_ACK,		0},
     [STATE_ACK]     = {"Ack",		State_Ack,		STATE_DONE,		0},
     [STATE_CONNET]  = {"Connect",	State_Connect,	STATE_SEND,		0},
     [STATE_SEND]    = {"Send", 		State_Send,		STATE_RECV,		0},
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
 			printf("- Server Startup -\n");
 			eCurrentState = STATE_BIND;
 			break;
-        case CMD_UNKNOWN:
+		case CMD_UNKNOWN:
 		default:
 			printf("Not valid option");
 			break;
